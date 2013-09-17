@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <meta name="author" content="" />
+    
+    <meta name="generator" content="" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link href="bootstrap/css/bootstrap.css" rel="stylesheet" media="screen" />
+</head>
+
+<body>
+<nav class="navbar navbar-fixed-top navbar-inverse" role="navigation">
+	<div class="container">
+		<!-- Collect the nav links, forms, and other content for toggling -->
+		<div class="collapse navbar-collapse navbar-ex1-collapse">
+			<ul class="nav navbar-nav">
+                
+                    <li><a href="index.html">Posts</a></li>
+                
+			</ul>
+		</div><!-- /.navbar-collapse -->
+	</div><!-- /.container -->
+</nav>
+<div style="display:block;height:90px;"></div>
+<div class="container">
+ <!--   <div class="jumbotron hero-spacer">
+        <h1></h1>
+        <p></p>
+    </div>-->
+    <div class="row">
+        <div class="col-lg-8">
+                <div class="post">
+                    <h1>Op IRC chatten via telnet</h1>
+                    <hr />
+                    <p>Robbe Van der Gucht, 17/09/2013</p>
+                    <hr />
+                    <p>Voordat je kunt beginnen zul je ervoor moeten zorgen dat telnet 
+beschikbaar is in <code>cmd</code> op je Windows machine. (Gebruikers van andere
+operating systems kunnen best <a href="http://en.wikipedia.org/wiki/Netcat">netcat</a> gebruiken. Mijn PC staat in het Engels en ik ken niet alle nederlandstalige 
+benamingen uit mijn hoofd. </p>
+
+<p>Ga naar <code>Control Panel</code>, (zorg dat de weergave instelling op &#39;kleine pictogrammen&#39; staat) en klik op <code>Programs and Features</code>.
+In de zijbar zul je op <code>Turn Windows features on or off</code> vinden.
+klik daarop en zoek in het nieuwe venster (mogelijk moet je even wachten)
+naar <code>telnet client</code>,
+controleer dat de checkbox ernaast aangevinkt is en druk op <code>OK</code>.</p>
+
+<p>Open cmd (en type <code>color oa</code> als je zo iemand bent). Nu kunnen we verbinden met een IRC server. Type in cmd:</p>
+
+<pre><code>telnet irc.freenode.org 6667</code></pre>
+
+<p>Nu we verbonden zijn moeten we onze nickname ingeven en ons identificeren.
+Om bijvoorbeeld met de nickname <code>echelon</code> en als echte naam <code>Robbe</code> te 
+identificeren type je:</p>
+
+<pre><code>NICK echelon
+USER echelon * * : Robbe</code></pre>
+
+<p>Opmerking, je kunt geen gebruik maken van <code>backspace</code>. Op het moment dat 
+je iets ingetypt hebt is het al verzonden. Indien je een type fout maakt
+is het beste wat je kunt doen op <code>enter</code> drukken en die lijn opnieuw beginnen
+typpen. Als alles goed gegaan is zul je het welcoms bericht op de server 
+ontvangen hebben. De volgende stap is om een chatroom binnen te gaan.
+Om bijvoorbeelde de chatroom <code>#demo</code> binnen te gaan:</p>
+
+<pre><code>JOIN #demo</code></pre>
+
+<p>Normaal gezien moet je een lijst zien passeren van de nicknames van de
+channel die je niet gejoined hebt. Deze kun je op elk moment opnieuw
+opvragen door <code>NAMES #demo</code> in te typen. Om te chatten met mensen of 
+iets in een channel te zeggen gebruik je <code>PRIVMSG</code>.</p>
+
+<pre><code>PRIVMSG #demo :Bericht aan iedereen in deze chatroom
+PRIVMSG nandm :Privé bericht aan de gebruiker nandm</code></pre>
+
+<p>Wat je al snel zult opmerken is dat als je even inactief bent dat je 
+geregeld eens een <code>PING</code> zult krijgen. Het gepaste antwoord 
+hierop is een <code>PONG</code>. Stel dat je <code>PING :hitchcock.freenode.net</code> dan
+is het gepast dat je antwoord met <code>PONG :hitchcock.freenode.net</code>.
+Indien je dit niet doet zul je relatief snel een timeout krijgen en 
+je verbinding met de server verliezen.</p>
+
+<p>Je kunt meerdere chatrooms joinen op. Al raad ik dat wat af om via
+telnet te doen (eigenlijk raad ik serieus chatten via IRC in het 
+algemeen af) maar je doet wat je niet laten kunt.
+Nog twee commando&#39;s die handig kunnen zijn <code>PART</code> en <code>QUIT</code>.
+De eerste is om een chatroom te verlaten en je kunt optioneel een 
+reden geven waarom. De tweede dient om alle chatrooms te verlaten en 
+te disconnecten met de server, je kunt ook optioneel een reden meegeven.</p>
+
+<pre><code>PART #testung :Reden waarom ik testung verlaat
+QUIT :Reden waarom je offline gaat</code></pre>
+
+<p>Ik hoop dat je iets geleerd hebt. Indien je serieus het idee hebt om op IRC
+te chatten <a href="http://quassel-irc.org/">Quassel</a> en 
+<a href="https://addons.mozilla.org/en-US/firefox/addon/chatzilla/">Chatzilla</a> 
+zijn echte IRC chatclients.</p>
+
+<p>Nog commando, type gewoon in <code>LIST</code>. Dit zal alle channels van het IRC 
+netwerk waar je opzit afprinten. Op grote netwerken zoals Freenode kunnen 
+dit er nogal veel zijn en kan dit voor een redelijke tijd je scherm vullen.</p>
+
+<p>Als je zin hebt om wat meer over IRC te leren om er eventueel een bot of
+IRC client in te programmeren, dan kun je de volgende RFCs lezen
+1459, 2810, 2811, 2812 en 2813.</p>
+                    <hr />
+                </div>
+        </div>
+    
+		<div class="col-lg-4">
+        <!--<div class="well">
+			<p></p>
+		  </div>-->
+		</div>
+    </div>
+</div>
+    
+</body>
+</html>
