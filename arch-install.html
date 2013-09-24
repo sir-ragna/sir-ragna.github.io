@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <meta name="author" content="" />
+    
+    <meta name="generator" content="" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link href="bootstrap/css/bootstrap.css" rel="stylesheet" media="screen" />
+</head>
+
+<body>
+<nav class="navbar navbar-fixed-top navbar-inverse" role="navigation">
+	<div class="container">
+		<!-- Collect the nav links, forms, and other content for toggling -->
+		<div class="collapse navbar-collapse navbar-ex1-collapse">
+			<ul class="nav navbar-nav">
+                
+                    <li><a href="index.html">Posts</a></li>
+                
+			</ul>
+		</div><!-- /.navbar-collapse -->
+	</div><!-- /.container -->
+</nav>
+<div style="display:block;height:90px;"></div>
+<div class="container">
+ <!--   <div class="jumbotron hero-spacer">
+        <h1></h1>
+        <p></p>
+    </div>-->
+    <div class="row">
+        <div class="col-lg-8">
+                <div class="post">
+                    <h1>Arch Linux installatie</h1>
+                    <hr />
+                    <p>Robbe Van der Gucht, 24/09/2013</p>
+                    <hr />
+                    <p>Mijn nieuwe laptop is toegekomen en ik heb er Arch Linux op gezet.
+Het eerste wat ik gedaan heb is met Filezilla een clone gemaakt van de huidige HD.
+Filezilla is staat ook op de <a href="http://partedmagic.com/doku.php">Parted Magic CD</a> 
+samen met een heleboel handige tools zoals GParted.</p>
+
+<p>De fabrieks-partitionering.</p>
+
+<p><img alt="Oude partitionering" src="http://i.imgur.com/CWxxggf.png"/></p>
+
+<p>Huidige Arch Linux partitionering.</p>
+
+<p><img alt="Nieuw partitionering" src="http://i.imgur.com/aohMQ1k.png"/></p>
+
+<p>Start op vanaf de Arch Linux boot CD.</p>
+
+<pre><code>loadkeys be-latin1
+wifi-menu
+
+
+# activeer de swap
+swapon /dev/sda3
+
+# Voorbereiding base installatie
+mount /dev/sda2 /mnt
+mkdir /mnt/boot
+mount /dev/sda1 /mnt/boot
+
+# Zet favoriete mirror bovenaan
+vi /etc/packman.d/mirrorlist
+
+# Installeer base-system
+pacstrap -i /mnt base
+
+# Stel fstab in
+genfstab -p /mnt &gt;&gt; /mnt/etc/fstab
+cat /mnt/etc/fstab  # altijd controleren en eventueel handmatig bijwerken</code></pre>
+
+<p>We zijn bijna klaar om te chrooten. We moeten echter eerst nog onze /sys/firmware/efi/efivars <em>populaten</em>.
+<a href="https://wiki.archlinux.org/index.php/UEFI#Requirements_for_UEFI_Variables_support_to_work_properly">Requirements for UEFI to work</a></p>
+
+<p>Hier heb ik wat problemen gehad maar uiteindelijk is het gelukt. De volgende links hebben me wat
+geholpen.
+- <a href="https://wiki.archlinux.org/index.php/UEFI#Inconsistency_between_efivarfs_and_sysfs-efivars">efivars versus sysfs-efivars</a>
+- <a href="https://wiki.archlinux.org/index.php/Beginners%27_Guide#Testing_if_you_are_booted_into_UEFI_mode">Testing if you are booted into UEFI mode</a>
+- <a href="https://bbs.archlinux.org/viewtopic.php?pid=1314641">https://bbs.archlinux.org/viewtopic.php?pid=1314641</a></p>
+
+<p><em>repopulate /sys/firmware/efi/efivars</em> <br/>Dit is nodig om binnen de <em>chroot</em> omgeving eraan te kunnen.</p>
+
+<pre><code>umount /sys/firmware/efi/efivars # exit value 127
+modprobe -r efivars # exit value 1
+modprobe efivarfs
+mount -t efivarfs efivarfs /sys/firmware/efi/efivars
+
+arch-chroot /mnt # chrooten naar onze root /dev/sda2 partitie
+
+# verifieer
+cat /sys/firmware/efi/efivars
+# indien nodig remount
+mount -t efivarfs efivarfs /sys/firmware/efi/efivar
+
+# stel hostname in
+echo &quot;spinoza&quot; &gt; /mnt/etc/hostname
+
+# localisatie configuratie
+nano /etc/locale.gen
+locale-gen
+echo LANG=en_GB.UTF-8 &gt; /etc/locale.gen
+export LANG=en_GB.UTF-8
+echo KEYMAP=be-latin1 &gt; /etc/vconsole.conf
+ln -s /usr/share/zoneinfo/Europe/Brussels
+hwclock --systohc --utc
+
+# zet DHCP aan voor ethernet poort
+systemctl enable dhcpcd.service
+
+# Installeer de bootloader
+pacman -S gummiboot
+gummiboot install
+
+# config bootloader
+nano /boot/loader/entries/arch.conf
+nano /boot/loader/loader.conf</code></pre>
+
+<p>Inhoud <code>/boot/loader/entries/arch.conf</code>:  <br/><img alt="Boot loader entries" src="images/boot-loader-entries-arch.conf.jpg"/></p>
+
+<pre><code># update config
+gummiboot update
+
+# Zet root paswoord
+passwd
+
+# verlaat de chroot omgeving
+exit
+
+# unmount recursief
+umount -R /mnt
+
+# zet laptop af.
+poweroff # done</code></pre>
+
+<p>De laptop lijkt goed te draaien. Ik ben de <strong>zsh</strong> die op blijkbaar de <em>default</em> is op de installatie
+cd beginnen appreciëren. Ik denk dat ik die in de toekomst nog ga gebruiken.</p>
+
+<p><img alt="Afbeelding laptop" src="images/laptop-side.jpg"/></p>
+                    <hr />
+                </div>
+        </div>
+    
+		<div class="col-lg-4">
+        <!--<div class="well">
+			<p></p>
+		  </div>-->
+		</div>
+    </div>
+</div>
+    
+</body>
+</html>
