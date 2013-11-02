@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <meta name="author" content="" />
+    
+    <meta name="generator" content="" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link href="bootstrap/css/bootstrap.css" rel="stylesheet" media="screen" />
+</head>
+
+<body>
+<nav class="navbar navbar-fixed-top navbar-inverse" role="navigation">
+	<div class="container">
+		<!-- Collect the nav links, forms, and other content for toggling -->
+		<div class="collapse navbar-collapse navbar-ex1-collapse">
+			<ul class="nav navbar-nav">
+                
+                    <li><a href="index.html">Posts</a></li>
+                
+			</ul>
+		</div><!-- /.navbar-collapse -->
+	</div><!-- /.container -->
+</nav>
+<div style="display:block;height:90px;"></div>
+<div class="container">
+ <!--   <div class="jumbotron hero-spacer">
+        <h1></h1>
+        <p></p>
+    </div>-->
+    <div class="row">
+        <div class="col-lg-8">
+                <div class="post">
+                    <h1>Samba</h1>
+                    <hr />
+                    <p>Robbe Van der Gucht, 02/11/2013</p>
+                    <hr />
+                    <p>Om bestandsuitwisseling tussen mijn laptop(Netrunner-linux) en desktop(Windows 7) te vergemakkelijken heb ik besloten om SMB te gebruiken.
+Vanop mijn laptop heb ik mijn home-map gedeeld en met passwoord beschermd.
+Om ook gemakkelijk bestanden uit te wisselen met andere gezinsleden heb ik ook een publieke map aangemaakt.
+Dit is een verslag van mijn setup.</p>
+
+<p>Het aanmaken van de map die publiek zal gedeeld worden.</p>
+
+<pre><code>mkdir /pubshare
+chmod 777 /pubshare</code></pre>
+
+<p>De inhoud van <code>/etc/samba/smb.conf</code>.</p>
+
+<pre><code>[global]
+server string = Samba %v on %h
+workgroup = RAGEGROUP
+browseable = yes
+guest ok = yes
+guest account = nobody
+valid users = nobody, robbe
+public = yes
+map to guest = Bad User
+
+[robbe]
+path = /home/robbe/
+writeable = yes
+browseable = yes
+valid users = robbe
+admin users = robbe
+guest ok = no
+
+[public]
+path = /pubshare
+writeable = yes</code></pre>
+
+<p>De meeste lijnen spreken wat voor zich behalve misschien <code>map to guest = Bad User</code>.
+Die zorgt ervoor dat mensen die proberen te verbinden met een onbestaande gebruikersnaam 
+als <em>guest</em> ingelogd worden en dus gemakkelijk op het publieke volume toegang krijgen.
+We testen onze configuratie met <code>testparm</code>.</p>
+
+<pre><code>robbe@spinoza:~$ testparm
+Load smb config files from /etc/samba/smb.conf
+rlimit_max: increasing rlimit_max (1024) to minimum Windows limit (16384)
+Processing section &quot;[robbe]&quot;
+Processing section &quot;[public]&quot;
+Loaded services file OK.
+Server role: ROLE_STANDALONE
+Press enter to see a dump of your service definitions
+[global]
+	workgroup = RAGEGROUP
+	server string = Samba %v on %h
+	map to guest = Bad User
+	idmap config * : backend = tdb
+	valid users = nobody, robbe
+	guest ok = Yes
+
+[robbe]
+	path = /home/robbe/
+	valid users = robbe
+	admin users = robbe
+	read only = No
+	guest ok = No
+
+[public]
+	path = /pubshare
+	read only = No</code></pre>
+
+<p>Nu moeten we nog de gebruiker <code>robbe</code> aanmaken zodat ik over het netwerk kan inloggen.</p>
+
+<pre><code>smbpasswd -a robbe</code></pre>
+
+<p>Ziezo en nu kunnen we vanaf onze Desktop deze schijf aankoppelen.</p>
+
+<p><img alt="map network drive" src="images/mapnetworkdrive.PNG"/></p>
+
+<p>We vinken aan dat we met andere <em>credentials</em> willen inloggen.</p>
+
+<p><img alt="credentials" src="images/network-credentials.PNG"/></p>
+
+<p>Geniet van je netwerk aangekoppelde opslag :-).</p>
+
+<p><img alt="enjoy your nas" src="images/enjoy-your-nas.PNG"/></p>
+                    <hr />
+                </div>
+        </div>
+    
+		<div class="col-lg-4">
+        <!--<div class="well">
+			<p></p>
+		  </div>-->
+		</div>
+    </div>
+</div>
+    
+</body>
+</html>
