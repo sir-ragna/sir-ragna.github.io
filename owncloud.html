@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <meta name="author" content="" />
+    
+    <meta name="generator" content="" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link href="bootstrap/css/bootstrap.css" rel="stylesheet" media="screen" />
+</head>
+
+<body>
+<nav class="navbar navbar-fixed-top navbar-inverse" role="navigation">
+	<div class="container">
+		<!-- Collect the nav links, forms, and other content for toggling -->
+		<div class="collapse navbar-collapse navbar-ex1-collapse">
+			<ul class="nav navbar-nav">
+                
+                    <li><a href="index.html">Posts</a></li>
+                
+			</ul>
+		</div><!-- /.navbar-collapse -->
+	</div><!-- /.container -->
+</nav>
+<div style="display:block;height:90px;"></div>
+<div class="container">
+ <!--   <div class="jumbotron hero-spacer">
+        <h1></h1>
+        <p></p>
+    </div>-->
+    <div class="row">
+        <div class="col-lg-8">
+                <div class="post">
+                    <h1>Owncloud installatie</h1>
+                    <hr />
+                    <p>Robbe Van der Gucht, 23/12/2013</p>
+                    <hr />
+                    <p>Ik start met een vers geïnstalleerde Ubuntu 64-bit server VM. Het eerste wat ik doe is LAMP installeren omdat dit automatisch een groot deel van de dependencies zal vervullen.</p>
+
+<pre><code>sudo -i
+tasksel
+# selecteer LAMP
+&lt;enter&gt;
+
+# installeer additionele dependencies
+aptitude install curl php5-curl smbclient libcurl3 php5-gd php-xml-parser php5-intl
+# download de tarbal
+wget http://download.owncloud.org/community/owncloud-6.0.0a.tar.bz2
+tar -xjf owncloud-6.0.0a.tar.bz2 
+cp -R owncloud /var/www/
+# zorg dat de apache2 account eigenaar van de bestanden is
+chown -R www-data:www-data /var/www/owncloud/</code></pre>
+
+<p> Pas <code>/etc/apache2/sites-enabled/000-default</code>aan. Zet <code>AllowOverride</code> op <code>All</code>. Daarna kun je best eens apache herstarten met <code>service apache2 restart</code>.</p>
+
+<p> <img alt="allow override" src="./images/allow-override.png"/></p>
+
+<p>Nu moeten we nog de MySQL server configureren. We loggen in met <em>root</em>. Daarna maken we een gebruiker <em>owncloud</em> aan met passwoord <em>pwncloud</em>. We maken ook een database <em>owncloud</em> aan en geven de gebruiker <em>owncloud alle rechten op de database </em>owncloud_.</p>
+
+<pre><code>sudo -i
+service mysql start
+mysql -u root -p
+&gt; toor
+mysql&gt; CREATE USER &#39;owncloud&#39;@&#39;localhost&#39; IDENTIFIED BY &#39;pwncloud&#39;;
+mysql&gt; CREATE DATABASE owncloud;
+mysql&gt; GRANT ALL ON owncloud.* TO &#39;owncloud&#39;@&#39;localhost&#39;;</code></pre>
+
+<p>Surf naar de machine. Bijvoorbeeld <code>http://192.168.5.103/owncloud</code> En vul de gegevens in.</p>
+
+<p><img alt="Webform configuratie" src="./images/owncloud-webconfig.png"/></p>
+                    <hr />
+                </div>
+        </div>
+    
+		<div class="col-lg-4">
+        <!--<div class="well">
+			<p></p>
+		  </div>-->
+		</div>
+    </div>
+</div>
+    
+</body>
+</html>

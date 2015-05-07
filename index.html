@@ -36,6 +36,70 @@
         <div class="col-lg-8">
             
                 <div class="post">
+                    <h1><a href="owncloud.html">Owncloud installatie</a></h1>
+                    <hr />
+                    <p>Robbe Van der Gucht, 23/12/2013</p>
+                    <hr />
+                    
+                        <p>Ik start met een vers geïnstalleerde Ubuntu 64-bit server VM. Het eerste wat ik doe is LAMP installeren omdat dit automatisch een groot deel van de dependencies zal vervullen.</p>
+
+<pre><code>sudo -i
+tasksel
+# selecteer LAMP
+&lt;enter&gt;
+
+# installeer additionele dependencies
+aptitude install curl php5-curl smbclient libcurl3 php5-gd php-xml-parser php5-intl
+# download de tarbal
+wget http://download.owncloud.org/community/owncloud-6.0.0a.tar.bz2</code></pre>
+                        <br />
+                        <span class="readmore"><a href="owncloud.html">Lees meer ...</a></span>
+                    
+                    <hr />
+                </div>
+            
+                <div class="post">
+                    <h1><a href="node-install.html">Node installatie</a></h1>
+                    <hr />
+                    <p>Robbe Van der Gucht, 22/12/2013</p>
+                    <hr />
+                    
+                        <p>De Node en NPM <em>packages</em> van mijn <code>apt-get</code> zijn verschrikkelijk <em>outdated</em>.
+Normaal gezien zou ik er mij niets van aantrekken. Soms is het echter wel eens
+de moeite om <em>up to date</em> te blijven met iets. Dus ik heb besloten om Node zelf
+te compileren. Iets wat op zich niet zo moeilijk is.</p>
+
+<pre><code>robbe@spinoza:~/installations$ git clone https://github.com/joyent/node.git
+cd node/
+git tag</code></pre>
+                        <br />
+                        <span class="readmore"><a href="node-install.html">Lees meer ...</a></span>
+                    
+                    <hr />
+                </div>
+            
+                <div class="post">
+                    <h1><a href="samba.html">Samba</a></h1>
+                    <hr />
+                    <p>Robbe Van der Gucht, 02/11/2013</p>
+                    <hr />
+                    
+                        <p>Om bestandsuitwisseling tussen mijn laptop(Netrunner-linux) en desktop(Windows 7) te vergemakkelijken heb ik besloten om SMB te gebruiken.
+Vanop mijn laptop heb ik mijn home-map gedeeld en met passwoord beschermd.
+Om ook gemakkelijk bestanden uit te wisselen met andere gezinsleden heb ik ook een publieke map aangemaakt.
+Dit is een verslag van mijn setup.</p>
+
+<p>Het aanmaken van de map die publiek zal gedeeld worden.</p>
+
+<pre><code>mkdir /pubshare
+</code></pre>
+                        <br />
+                        <span class="readmore"><a href="samba.html">Lees meer ...</a></span>
+                    
+                    <hr />
+                </div>
+            
+                <div class="post">
                     <h1><a href="arch-install.html">Arch Linux installatie</a></h1>
                     <hr />
                     <p>Robbe Van der Gucht, 24/09/2013</p>
@@ -113,9 +177,8 @@ uittesten van software zoals databases, reverseproxies en systeem beheer softwar
         <div class="well">
 			<p><h3>Over</h3>
 
-<p>Robbe Van der Gucht houd zich graag bezig met systeem, netwerk en database-beheer.
-Hij kan scripten en is security minded. 
-Leest alles wat <a href="https://www.schneier.com/">Bruce Schneier</a> op zijn blog post.</p>
+<p>Robbe Van der Gucht houdt zich graag bezig met systeem, netwerk en database-beheer.
+Hij kan scripten en is security minded. Momenteel experimenteert hij met NodeJS.</p>
 
 <p>Je kunt hem terug vinden op verschillende netwerken.</p>
 
